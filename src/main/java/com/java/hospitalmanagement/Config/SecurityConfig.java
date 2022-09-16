@@ -38,8 +38,11 @@ public class SecurityConfig {
         authenticationManager=builder.build();
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests().antMatchers("/save").permitAll().and().
-                authorizeRequests().antMatchers("/all","/profile","/profile/**").hasRole("MEMBER").and().
-                formLogin().permitAll()
+                authorizeRequests().
+                antMatchers("/all","/profile","/profile/**").
+                hasRole("MEMBER").and().
+                authorizeRequests().antMatchers("/clinic/**","/doctor/**","/hospital/**").
+                hasRole("ADMIN").and().formLogin().permitAll()
                 .and().logout().permitAll().and().authenticationManager(authenticationManager).httpBasic();
         return  httpSecurity.build();
     }

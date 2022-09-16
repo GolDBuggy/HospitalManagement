@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "member_information")
@@ -48,5 +49,7 @@ public class Profile {
 
     @Column(name = "birthplace")
     private String birthplace;
+
+
 
 }
