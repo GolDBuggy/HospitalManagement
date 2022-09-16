@@ -4,6 +4,8 @@ import com.java.hospitalmanagement.Security.MemberDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.method.MethodSecurityMetadataSource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,11 +22,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final MemberDetailService service;
+    private AuthenticationManager authenticationManager;
 
-    @Bean
-    public UserDetailsService service(){
-        return service;
-    }
 
 
     @Bean
@@ -34,9 +33,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+        AuthenticationManagerBuilder builder=httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.userDetailsService(service);
+        authenticationManager=builder.build();
         httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests().antMatchers("/**").permitAll().and().formLogin().permitAll()
-                .and().logout().permitAll().and().httpBasic();
+        httpSecurity.authorizeRequests().antMatchers("/save").permitAll().and().
+                authorizeRequests().antMatchers("/all","/profile","/profile/**").hasRole("MEMBER").and().
+                formLogin().permitAll()
+                .and().logout().permitAll().and().authenticationManager(authenticationManager).httpBasic();
         return  httpSecurity.build();
     }
 

@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class MemberDetailService implements UserDetailsService{
 
     private final MemberRepository repository;

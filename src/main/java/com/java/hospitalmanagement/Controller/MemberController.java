@@ -1,5 +1,6 @@
 package com.java.hospitalmanagement.Controller;
 
+import com.java.hospitalmanagement.Dto.MemberDto;
 import com.java.hospitalmanagement.Model.Member;
 import com.java.hospitalmanagement.Service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class MemberController {
     private final MemberService service;
 
     @PostMapping("/save")
-    public Member saveMember(@RequestBody Member member){
-        service.save(member);
-        return member;
+    public ResponseEntity<?> saveMember(@RequestBody MemberDto memberDto){
+        service.save(memberDto);
+        return  ResponseEntity.accepted().body(memberDto);
     }
 
     @GetMapping("/all")
