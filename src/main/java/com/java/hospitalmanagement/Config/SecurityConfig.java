@@ -42,7 +42,9 @@ public class SecurityConfig {
                 antMatchers("/all","/profile","/profile/**").
                 hasRole("MEMBER").and().
                 authorizeRequests().antMatchers("/clinic/**","/doctor/**","/hospital/**").
-                hasRole("ADMIN").and().formLogin().permitAll()
+                hasAnyRole("ADMIN","DOCTOR").and().
+                authorizeRequests().antMatchers("/change/**").hasRole("ADMIN").and().
+                formLogin().permitAll()
                 .and().logout().permitAll().and().authenticationManager(authenticationManager).httpBasic();
         return  httpSecurity.build();
     }

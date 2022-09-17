@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "members")
@@ -47,4 +48,7 @@ public class Member {
 
     @OneToOne(mappedBy = "member")
     private Profile profile;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Medicine> medicines;
 }

@@ -5,6 +5,7 @@ import com.java.hospitalmanagement.Repository.DoctorRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.security.Principal;
 import java.util.UUID;
 
@@ -18,8 +19,12 @@ public class DoctorService {
 
     public void saveDoctor(Doctor doctor, Principal principal){
         doctor.setId(UUID.randomUUID().toString());
-        doctor.setMember(memberService.getByEmail(principal.getName()));
+        doctor.setMember(memberService.getByPersonelId(principal.getName()));
         doctorRepo.save(doctor);
+    }
+
+    public Doctor getByPersonalId(String id){
+        return doctorRepo.findByMember_PersonalId(id).get();
     }
 
 

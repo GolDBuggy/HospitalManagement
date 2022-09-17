@@ -21,6 +21,10 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     private static String DEFAULT="ROLE_MEMBER";
+    private static String DOCTOR="ROLE_MEMBER,ROLE_DOCTOR";
+    private static String ADMIN="ROLE_MEMBER,ROLE_ADMIN";
+
+
 
 
     public List<Member> getAll(){
@@ -28,7 +32,7 @@ public class MemberService {
     }
 
 
-    public Member getByEmail(String personalId){
+    public Member getByPersonelId(String personalId){
         return memberRepository.findByPersonalId(personalId).get();
     }
 
@@ -47,8 +51,39 @@ public class MemberService {
     }
 
 
+    public void updateMember(Member member){
+        memberRepository.save(member);
+    }
+
+
     private void checkPass(MemberDto memberDto){
         if(!memberDto.getPassword().equals(memberDto.getRePass()))
             throw new RuntimeException("Passwords must be equals!");
+    }
+
+    public void changeRole(String personalId, String role) {
+        updateMember(setMember(memberRepository.findByPersonalId(personalId).get(),role));
+    }
+
+    private Member setMember(Member member,String role){
+        member.setRoles(setRole(role));
+        return member;
+    }
+
+    private String setRole(String role){
+
+        switch (role){
+            case "MEMBER":
+                role=DEFAULT;
+                break;
+            case "DOCTOR":
+                role=DOCTOR;
+                break;
+            case "ADMIN":
+                role=ADMIN;
+                break;
+        }
+
+        return role;
     }
 }
