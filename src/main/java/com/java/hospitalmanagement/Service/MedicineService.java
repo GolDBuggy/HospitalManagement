@@ -14,11 +14,8 @@ import java.util.UUID;
 public class MedicineService {
 
     private final MedicineRepo medicineRepo;
-    private final DoctorService doctorService;
-    private final MemberService memberService;
-    public void save(Medicine medicine, Principal principal){
+    public void save(Medicine medicine){
         medicine.setId(UUID.randomUUID().toString());
-        medicine.setDoctor(doctorService.getByPersonalId(principal.getName()));
         medicineRepo.save(medicine);
     }
 

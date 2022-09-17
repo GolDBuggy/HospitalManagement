@@ -1,13 +1,14 @@
 package com.java.hospitalmanagement.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.print.Doc;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "medicine")
@@ -30,13 +31,10 @@ public class Medicine {
     @Column(name = "expire_date")
     private Date expireDate;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
+    @ManyToMany
+    @JoinTable(name = "barcode_medicine",joinColumns = @JoinColumn(name = "medicine_id"),
+            inverseJoinColumns = @JoinColumn(name = "barcode_id"))
+    @JsonIgnore
+    private List<Barcode> barcodes;
 
 }

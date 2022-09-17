@@ -30,9 +30,9 @@ public class Doctor {
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    @OneToMany
+    @OneToMany(mappedBy = "doctor")
     @JsonIgnore
-    private List<Medicine> medicines;
+    private List<Barcode> barcodes;
 
 
 

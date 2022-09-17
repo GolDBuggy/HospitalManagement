@@ -18,8 +18,8 @@ public class MedicineController {
     private final MedicineService medicineService;
 
     @PostMapping("/save")
-    public void saveMedicine(@RequestBody Medicine medicine, Principal principal){
-        medicineService.save(medicine,principal);
+    public void saveMedicine(@RequestBody Medicine medicine){
+        medicineService.save(medicine);
     }
 
 }

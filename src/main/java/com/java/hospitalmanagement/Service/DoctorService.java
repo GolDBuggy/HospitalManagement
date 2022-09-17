@@ -23,8 +23,8 @@ public class DoctorService {
         doctorRepo.save(doctor);
     }
 
-    public Doctor getByPersonalId(String id){
-        return doctorRepo.findByMember_PersonalId(id).get();
+    public Doctor getByPersonalId(String personalId){
+        return doctorRepo.findByMember_PersonalId(personalId).get();
     }
 
 

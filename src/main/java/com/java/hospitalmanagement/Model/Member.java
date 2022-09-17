@@ -49,6 +49,6 @@ public class Member {
     @OneToOne(mappedBy = "member")
     private Profile profile;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Medicine> medicines;
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Barcode> barcodes;
 }
