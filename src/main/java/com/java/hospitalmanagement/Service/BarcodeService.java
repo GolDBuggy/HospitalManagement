@@ -1,6 +1,7 @@
 package com.java.hospitalmanagement.Service;
 
 import com.java.hospitalmanagement.Dto.BarcodeMemberDto;
+import com.java.hospitalmanagement.Dto.BarcodeResponseDto;
 import com.java.hospitalmanagement.Model.Barcode;
 import com.java.hospitalmanagement.Repository.BarcodeRepo;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,12 @@ public class BarcodeService {
                member(memberService.getByPersonelId(barcodeMemberDto.getPersonalId())).
                doctor(doctorService.getByPersonalId(principal.getName())).medicines(barcodeMemberDto.getMedicines()).build();
         barcodeRepo.save(barcode);
+    }
+
+
+    public BarcodeResponseDto getById(String id){
+        BarcodeResponseDto barcodeResponseDto=mapper.map(barcodeRepo.findById(id).get(),BarcodeResponseDto.class);
+        return barcodeResponseDto;
     }
 
 
