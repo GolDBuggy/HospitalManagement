@@ -41,6 +41,8 @@ public class MemberService {
         memberRepository.save(mapMember(memberDto));
     }
 
+
+
     private Member mapMember(MemberDto memberDto){
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
         Member member=modelMapper.map(memberDto,Member.class);
@@ -49,6 +51,7 @@ public class MemberService {
         member.setRoles(DEFAULT);
         return member;
     }
+
 
 
     public void updateMember(Member member){
