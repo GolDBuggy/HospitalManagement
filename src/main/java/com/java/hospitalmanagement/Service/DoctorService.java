@@ -2,6 +2,8 @@ package com.java.hospitalmanagement.Service;
 
 import com.java.hospitalmanagement.Dto.AnalysisRequestDto;
 import com.java.hospitalmanagement.Dto.DoctorDto;
+import com.java.hospitalmanagement.Dto.DoctorMemberDto;
+import com.java.hospitalmanagement.Dto.DoctorNameDto;
 import com.java.hospitalmanagement.Model.Doctor;
 import com.java.hospitalmanagement.Repository.DoctorRepo;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +45,9 @@ public class DoctorService {
         template.send("analysis_request",analysisRequestDto);
     }
 
-    private DoctorDto mapDoctor(Doctor doctor){
-        DoctorDto doctorDto= DoctorDto.builder().id(doctor.getId()).firstname(doctor.getMember().getFirstName())
-                .lastname(doctor.getMember().getLastName()).build();
+    private DoctorMemberDto mapDoctor(Doctor doctor){
+        DoctorMemberDto doctorDto=DoctorMemberDto.builder().firstName(doctor.getMember().getFirstName()).
+                lastName(doctor.getMember().getLastName()).build();
         return doctorDto;
     }
 

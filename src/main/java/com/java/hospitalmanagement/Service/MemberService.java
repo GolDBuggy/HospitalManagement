@@ -76,7 +76,6 @@ public class MemberService {
     }
 
     private String setRole(String role){
-
         switch (role){
             case "MEMBER":
                 role=DEFAULT;
