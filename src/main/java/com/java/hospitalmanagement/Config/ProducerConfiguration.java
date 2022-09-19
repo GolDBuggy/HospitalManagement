@@ -1,5 +1,6 @@
 package com.java.hospitalmanagement.Config;
 
+import com.java.hospitalmanagement.Dto.AnalysisRequestDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class ProducerConfiguration {
 
     @Bean
-    public ProducerFactory<String,Object> producerFactory(){
+    public ProducerFactory<String,AnalysisRequestDto> producerFactory(){
         Map<String,Object> producer=new HashMap<>();
         producer.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
         producer.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -25,7 +26,7 @@ public class ProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String,Object> kafkaTemplate(){
+    public KafkaTemplate<String, AnalysisRequestDto> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 

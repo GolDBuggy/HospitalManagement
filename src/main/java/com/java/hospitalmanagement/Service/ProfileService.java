@@ -19,13 +19,13 @@ public class ProfileService {
 
     public void save(Profile profile, Principal principal){
         profile.setId(UUID.randomUUID().toString());
-        profile.setMember(memberService.getByPersonelId(principal.getName()));
+        profile.setMember(memberService.getByPersonalId(principal.getName()));
         profileRepo.save(profile);
     }
 
 
     public Profile getProfile(Principal principal){
-        return memberService.getByPersonelId(principal.getName()).getProfile();
+        return memberService.getByPersonalId(principal.getName()).getProfile();
     }
 
 }

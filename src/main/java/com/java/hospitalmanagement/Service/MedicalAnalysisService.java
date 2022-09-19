@@ -41,7 +41,7 @@ public class MedicalAnalysisService {
     private MedicalAnalysis setMedicalAnalysis(MedicalAnalysis medicalAnalysis,Principal principal){
         medicalAnalysis.setId(UUID.randomUUID().toString());
         medicalAnalysis.setDoctor(doctorService.getByPersonalId(principal.getName()));
-        medicalAnalysis.setMember(memberService.getByPersonelId(medicalAnalysis.getMember().getPersonalId()));
+        medicalAnalysis.setMember(memberService.getByPersonalId(medicalAnalysis.getMember().getPersonalId()));
         medicalAnalysis.getAnalysisProperties().forEach(e -> e.setMedicalAnalysis(medicalAnalysis));
         return medicalAnalysis;
     }

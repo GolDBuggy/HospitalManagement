@@ -24,7 +24,7 @@ public class BarcodeService {
     public void createBarcode(BarcodeMemberDto barcodeMemberDto, Principal principal){
        Barcode barcode=Barcode.builder().id(UUID.randomUUID().toString()).
                disease(barcodeMemberDto.getDisease()).
-               member(memberService.getByPersonelId(barcodeMemberDto.getPersonalId())).
+               member(memberService.getByPersonalId(barcodeMemberDto.getPersonalId())).
                doctor(doctorService.getByPersonalId(principal.getName())).medicines(barcodeMemberDto.getMedicines()).build();
         barcodeRepo.save(barcode);
     }

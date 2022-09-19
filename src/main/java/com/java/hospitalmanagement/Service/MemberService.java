@@ -32,7 +32,7 @@ public class MemberService {
     }
 
 
-    public Member getByPersonelId(String personalId){
+    public Member getByPersonalId(String personalId){
         return memberRepository.findByPersonalId(personalId).get();
     }
 

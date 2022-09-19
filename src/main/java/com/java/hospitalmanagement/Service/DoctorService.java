@@ -1,10 +1,9 @@
 package com.java.hospitalmanagement.Service;
 
-import com.java.hospitalmanagement.Dto.AnalysisRequestDto;
-import com.java.hospitalmanagement.Dto.DoctorDto;
-import com.java.hospitalmanagement.Dto.DoctorMemberDto;
-import com.java.hospitalmanagement.Dto.DoctorNameDto;
+import com.java.hospitalmanagement.Dto.*;
 import com.java.hospitalmanagement.Model.Doctor;
+import com.java.hospitalmanagement.Model.Member;
+import com.java.hospitalmanagement.Model.RequestTable;
 import com.java.hospitalmanagement.Repository.DoctorRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,6 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
+import javax.transaction.Transactional;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,13 +24,13 @@ public class DoctorService {
     private final MemberService memberService;
     private final ModelMapper modelMapper;
 
-    private final KafkaTemplate<String,Object> template;
+    private final KafkaTemplate<String,AnalysisRequestDto> template;
     private static String REQUEST="analysis_request";
 
 
     public void saveDoctor(Doctor doctor, Principal principal){
         doctor.setId(UUID.randomUUID().toString());
-        doctor.setMember(memberService.getByPersonelId(principal.getName()));
+        doctor.setMember(memberService.getByPersonalId(principal.getName()));
         doctorRepo.save(doctor);
     }
 
@@ -38,11 +38,18 @@ public class DoctorService {
         return doctorRepo.findByMember_PersonalId(personalId).get();
     }
 
+    @Transactional
     public void sendAnalysisRequest(AnalysisRequestDto analysisRequestDto,Principal principal){
         analysisRequestDto.setId(UUID.randomUUID().toString());
+        analysisRequestDto.setMember(mapMember(analysisRequestDto.getMember().getPersonalId()));
         analysisRequestDto.setDoctor(mapDoctor(getByPersonalId(principal.getName())));
         analysisRequestDto.setSendTime(LocalDateTime.now());
-        template.send("analysis_request",analysisRequestDto);
+        template.send(REQUEST,analysisRequestDto);
+    }
+
+    private MemberInformationDto mapMember(String personalId){
+        MemberInformationDto informationDto=modelMapper.map(memberService.getByPersonalId(personalId),MemberInformationDto.class);
+        return informationDto;
     }
 
     private DoctorMemberDto mapDoctor(Doctor doctor){
@@ -50,6 +57,7 @@ public class DoctorService {
                 lastName(doctor.getMember().getLastName()).build();
         return doctorDto;
     }
+
 
 
 }

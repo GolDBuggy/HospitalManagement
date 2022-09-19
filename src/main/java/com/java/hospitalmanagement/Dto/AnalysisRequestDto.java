@@ -4,7 +4,11 @@ import com.java.hospitalmanagement.Model.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.core.serializer.Deserializer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +18,9 @@ public class AnalysisRequestDto {
 
     private String id;
     private DoctorMemberDto doctor;
-    private Member member;
+    private MemberInformationDto member;
     private String analysisName;
     private LocalDateTime sendTime;
+
+
 }

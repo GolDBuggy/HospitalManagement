@@ -5,6 +5,7 @@ import com.java.hospitalmanagement.Model.Clinic;
 import com.java.hospitalmanagement.Model.Doctor;
 import com.java.hospitalmanagement.Service.ClinicService;
 import com.java.hospitalmanagement.Service.DoctorService;
+import com.java.hospitalmanagement.Service.RequestTableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.security.Principal;
 public class DoctorController {
 
     private final DoctorService doctorService;
+
 
     @PostMapping("/save")
     public ResponseEntity<Doctor> save(@RequestBody Doctor doctor, Principal principal){
