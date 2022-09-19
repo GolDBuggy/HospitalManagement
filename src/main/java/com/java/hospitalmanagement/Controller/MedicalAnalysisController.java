@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -17,14 +18,15 @@ public class MedicalAnalysisController {
     private final MedicalAnalysisService analysisService;
 
     @PostMapping("/create")
-    public ResponseEntity<MedicalAnalysisDto> create(@RequestBody MedicalAnalysisDto medicalAnalysisDto){
-       return ResponseEntity.accepted().body(analysisService.saveAnalysis(medicalAnalysisDto));
+    public ResponseEntity<?> create(@RequestBody MedicalAnalysis medicalAnalysis, Principal principal){
+        analysisService.saveAnalysis(medicalAnalysis,principal);
+       return ResponseEntity.accepted().body("Saved Successfully!");
     }
 
     //barcode oluşturulabilir
 
     @GetMapping("/all")
-    public ResponseEntity<List<MedicalAnalysis>> getAll(){
+    public ResponseEntity<List<MedicalAnalysisDto>> getAll(){
         return ResponseEntity.accepted().body(analysisService.getAll());
     }
 }

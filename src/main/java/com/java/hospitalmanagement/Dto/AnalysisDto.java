@@ -1,21 +1,20 @@
-package com.java.hospitalmanagement.Model;
+package com.java.hospitalmanagement.Dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnalysisColumn {
+public class AnalysisDto {
 
-    private Object result;
-
+    private String processName;
+    private String result;
     private String resultUnit;
-
     private String referenceValue;
-
+    private Date analysisDate;
 }

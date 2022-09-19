@@ -15,6 +15,7 @@ public class MedicineService {
 
     private final MedicineRepo medicineRepo;
     public void save(Medicine medicine){
+
         medicine.setId(UUID.randomUUID().toString());
         medicineRepo.save(medicine);
     }

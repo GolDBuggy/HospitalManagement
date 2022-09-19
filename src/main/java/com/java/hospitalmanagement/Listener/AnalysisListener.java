@@ -5,10 +5,8 @@ import com.java.hospitalmanagement.Dto.AnalysisRequestDto;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+
 import java.util.logging.Logger;
 
 @Component

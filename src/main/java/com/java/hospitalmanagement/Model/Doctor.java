@@ -35,5 +35,10 @@ public class Doctor {
     private List<Barcode> barcodes;
 
 
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JsonIgnore
+    private List<MedicalAnalysis> medicalAnalyses;
+
+
 
 }

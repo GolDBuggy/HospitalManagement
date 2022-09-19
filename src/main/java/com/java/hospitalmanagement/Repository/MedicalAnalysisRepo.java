@@ -1,7 +1,7 @@
 package com.java.hospitalmanagement.Repository;
 
 import com.java.hospitalmanagement.Model.MedicalAnalysis;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MedicalAnalysisRepo extends MongoRepository<MedicalAnalysis,String> {
+public interface MedicalAnalysisRepo extends JpaRepository<MedicalAnalysis,String> {
 }

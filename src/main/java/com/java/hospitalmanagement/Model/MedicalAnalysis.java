@@ -1,35 +1,39 @@
 package com.java.hospitalmanagement.Model;
 
 import com.java.hospitalmanagement.Dto.MemberInformationDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
+import javax.persistence.*;
+
 import java.util.List;
 
-@Document
-@Data
+@Entity
+@Table(name = "analysis")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class MedicalAnalysis {
 
     @Id
+    @Column(name = "analysis_id")
     private String id;
 
-    private MemberInformationDto member;
+    @Column(name = "analysis_name")
+    private String name;
 
-    private LocalDate analysisDate;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    private List<HashMap<String,AnalysisColumn>> analysis;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "medicalAnalysis")
+    private List<AnalysisProperty> analysisProperties;
 
 
 

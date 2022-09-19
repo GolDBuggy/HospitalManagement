@@ -41,7 +41,9 @@ public class MemberService {
         memberRepository.save(mapMember(memberDto));
     }
 
-
+    public Member getById(String id){
+        return memberRepository.findById(id).get();
+    }
 
     private Member mapMember(MemberDto memberDto){
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
