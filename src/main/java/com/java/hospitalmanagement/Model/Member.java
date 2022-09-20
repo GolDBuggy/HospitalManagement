@@ -59,4 +59,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Disease> diseases;
+
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<EmergencyNote> emergencyNotes;
+
+
 }
