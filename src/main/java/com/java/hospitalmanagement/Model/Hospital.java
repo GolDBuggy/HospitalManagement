@@ -32,4 +32,8 @@ public class Hospital {
     @JoinTable(name = "hospital_clinic",joinColumns = @JoinColumn(name = "hospital_id"),
             inverseJoinColumns = @JoinColumn(name = "clinic_id"))
     private List<Clinic> clinics;
+
+    @OneToMany(mappedBy = "hospital",fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private List<Disease> diseases;
+
 }

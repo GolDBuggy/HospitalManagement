@@ -56,4 +56,7 @@ public class Member {
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MedicalAnalysis> medicalAnalyses;
+
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Disease> diseases;
 }

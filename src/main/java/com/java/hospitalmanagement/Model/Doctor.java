@@ -39,6 +39,9 @@ public class Doctor {
     @JsonIgnore
     private List<MedicalAnalysis> medicalAnalyses;
 
+    @OneToMany(mappedBy = "doctor",fetch = FetchType.LAZY,cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    private List<Disease> diseases;
+
 
 
 }

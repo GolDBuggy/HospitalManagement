@@ -18,5 +18,13 @@ public class HospitalService {
         hospitalRepo.save(hospital);
     }
 
+    public Hospital getById(long id){
+        return hospitalRepo.findById(id).get();
+    }
+
+    public Hospital getByName(String name){
+        return hospitalRepo.findByHospitalName(name).get();
+    }
+
 
 }
