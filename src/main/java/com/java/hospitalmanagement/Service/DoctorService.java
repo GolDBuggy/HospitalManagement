@@ -7,11 +7,9 @@ import com.java.hospitalmanagement.Model.RequestTable;
 import com.java.hospitalmanagement.Repository.DoctorRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.print.Doc;
-import javax.transaction.Transactional;
+
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,11 +19,11 @@ import java.util.UUID;
 public class DoctorService {
 
     private final DoctorRepo doctorRepo;
+    private final RequestTableService tableService;
     private final MemberService memberService;
     private final ModelMapper modelMapper;
 
-    private final KafkaTemplate<String,AnalysisRequestDto> template;
-    private static String REQUEST="analysis_request";
+
 
 
     public void saveDoctor(Doctor doctor, Principal principal){
@@ -38,13 +36,14 @@ public class DoctorService {
         return doctorRepo.findByMember_PersonalId(personalId).get();
     }
 
-    @Transactional
-    public void sendAnalysisRequest(AnalysisRequestDto analysisRequestDto,Principal principal){
-        analysisRequestDto.setId(UUID.randomUUID().toString());
-        analysisRequestDto.setMember(mapMember(analysisRequestDto.getMember().getPersonalId()));
-        analysisRequestDto.setDoctor(mapDoctor(getByPersonalId(principal.getName())));
-        analysisRequestDto.setSendTime(LocalDateTime.now());
-        template.send(REQUEST,analysisRequestDto);
+
+    public void sendAnalysisRequest(RequestTable table,Principal principal){
+        table.setId(UUID.randomUUID().toString());
+        table.setMember(memberService.getByPersonalId(table.getMember().getPersonalId()));
+        table.setDoctor(getByPersonalId(principal.getName()));
+        table.setSendTime(LocalDateTime.now());
+        tableService.save(table);
+
     }
 
     private MemberInformationDto mapMember(String personalId){

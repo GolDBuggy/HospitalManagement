@@ -23,7 +23,6 @@ public class MedicalAnalysisController {
        return ResponseEntity.accepted().body("Saved Successfully!");
     }
 
-    //barcode oluşturulabilir
 
     @GetMapping("/all")
     public ResponseEntity<List<MedicalAnalysisDto>> getAll(){

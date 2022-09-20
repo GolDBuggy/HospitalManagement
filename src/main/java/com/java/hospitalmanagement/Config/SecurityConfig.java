@@ -40,6 +40,7 @@ public class SecurityConfig {
                 authorizeRequests().
                 antMatchers("/all","/profile","/profile/**").
                 hasRole("MEMBER").and().
+                authorizeRequests().antMatchers("/list/analysis").hasRole("LABORATORIAN").and().
                 authorizeRequests().antMatchers("/barcode/**","/analysis/**").hasRole("DOCTOR").and().
                 authorizeRequests().antMatchers("/clinic/**","/doctor/**","/hospital/**").
                 hasAnyRole("ADMIN","DOCTOR").and().

@@ -3,6 +3,7 @@ package com.java.hospitalmanagement.Controller;
 import com.java.hospitalmanagement.Dto.AnalysisRequestDto;
 import com.java.hospitalmanagement.Model.Clinic;
 import com.java.hospitalmanagement.Model.Doctor;
+import com.java.hospitalmanagement.Model.RequestTable;
 import com.java.hospitalmanagement.Service.ClinicService;
 import com.java.hospitalmanagement.Service.DoctorService;
 import com.java.hospitalmanagement.Service.RequestTableService;
@@ -27,8 +28,8 @@ public class DoctorController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> analysisRequest(@RequestBody AnalysisRequestDto analysisRequestDto, Principal principal){
-        doctorService.sendAnalysisRequest(analysisRequestDto,principal);
+    public ResponseEntity<String> analysisRequest(@RequestBody RequestTable table, Principal principal){
+        doctorService.sendAnalysisRequest(table,principal);
         return ResponseEntity.accepted().body("Request sended successfully!");
     }
 

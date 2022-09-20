@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class AnalysisRequestDto {
 
     private String id;
-    private DoctorMemberDto doctor;
+    private DoctorNameDto doctor;
     private MemberInformationDto member;
     private String analysisName;
     private LocalDateTime sendTime;
