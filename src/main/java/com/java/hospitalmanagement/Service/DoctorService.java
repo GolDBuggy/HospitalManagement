@@ -24,6 +24,10 @@ public class DoctorService {
     private final ModelMapper modelMapper;
 
 
+    public Doctor findByDoctorName(String firstname,String lastname){
+        return doctorRepo.findByMember_FirstNameAndMember_LastName(firstname,lastname).get();
+    }
+
 
 
     public void saveDoctor(Doctor doctor, Principal principal){

@@ -38,7 +38,7 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests().antMatchers("/save").permitAll().and().
                 authorizeRequests().
-                antMatchers("/all","/profile","/profile/**","/disease/all","/note/save","/note/my","/report/all").
+                antMatchers("/all","/profile","/profile/**","/disease/all","/note/save","/note/my","/report/all","/appointment/save").
                 hasRole("MEMBER").and().
                 authorizeRequests().antMatchers("/list/analysis","/analysis/**").hasRole("LABORATORIAN").and().
                 authorizeRequests().

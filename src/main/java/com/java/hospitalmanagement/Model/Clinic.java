@@ -29,7 +29,7 @@ public class Clinic {
                                         inverseJoinColumns = @JoinColumn(name = "hospital_id"))
     private List<Hospital> hospitals;
 
-    @OneToOne(mappedBy = "clinic")
-    private Doctor doctor;
+    @OneToMany(mappedBy = "clinic")
+    private List<Doctor> doctors;
 
 }
