@@ -1,9 +1,8 @@
 package com.java.hospitalmanagement.Service;
 
-import com.java.hospitalmanagement.Controller.AppointmentController;
+import com.java.hospitalmanagement.Exception.TimeException;
 import com.java.hospitalmanagement.Model.Appointment;
 import com.java.hospitalmanagement.Model.Doctor;
-import com.java.hospitalmanagement.Model.Member;
 import com.java.hospitalmanagement.Repository.AppointmentRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +31,7 @@ public class AppointmentService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime startTime=LocalDateTime.parse(start,formatter);
         LocalDateTime endTime=LocalDateTime.parse(end,formatter);
+        checkTime(startTime,endTime);
         Appointment appointment=Appointment.builder().hospital(hospitalService.getByName(hospital)).
                 member(memberService.getByPersonalId(principal.getName())).
                 clinic(clinicService.getByClinicNameAndHospital(clinic, hospitalService.getByName(hospital))).
@@ -40,7 +40,15 @@ public class AppointmentService {
         appointmentRepo.save(appointment);
     }
 
-
+    private void checkTime(LocalDateTime startTime,LocalDateTime endTime){
+        int timeHour=endTime.getHour()-startTime.getHour();
+        double totalTimeMinute=Math.abs(endTime.getMinute()-startTime.getMinute());
+        boolean dateControl=(startTime.getDayOfMonth()-endTime.getDayOfMonth()) ==0;
+        boolean workingHour=(endTime.getHour()>=8 && endTime.getHour()<=17) && (startTime.getHour()>=8 && startTime.getHour() <=17);
+        boolean appointmentTime=((timeHour==0 || timeHour==1) && totalTimeMinute<=30.0);
+        if (!(workingHour && appointmentTime && dateControl))
+            throw new TimeException("Time range must be entered correctly! ");
+    }
 
 
     private Doctor getByName(String doctorName){

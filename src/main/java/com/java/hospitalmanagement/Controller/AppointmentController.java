@@ -33,7 +33,6 @@ public class AppointmentController {
                                          Principal principal){
         appointmentService.save(hospital,clinic,name,start,end,principal);
 
-
        return ResponseEntity.accepted().body("ss");
     }
 }
