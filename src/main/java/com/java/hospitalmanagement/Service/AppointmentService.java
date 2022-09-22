@@ -1,16 +1,20 @@
 package com.java.hospitalmanagement.Service;
 
+import com.java.hospitalmanagement.Dto.AppointmentDto;
 import com.java.hospitalmanagement.Exception.TimeException;
 import com.java.hospitalmanagement.Model.Appointment;
 import com.java.hospitalmanagement.Model.Doctor;
 import com.java.hospitalmanagement.Repository.AppointmentRepo;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +25,15 @@ public class AppointmentService {
     private final ClinicService clinicService;
     private final MemberService memberService;
     private final DoctorService doctorService;
+    private final ModelMapper modelMapper;
 
 
     private static Logger logger=Logger.getLogger(AppointmentService.class.getName());
+
+
+    public List<AppointmentDto> getMemberAppointment(Principal principal){
+        return memberService.getByPersonalId(principal.getName()).getAppointments().stream().map(e -> modelMapper.map(e,AppointmentDto.class)).collect(Collectors.toList());
+    }
 
 
 

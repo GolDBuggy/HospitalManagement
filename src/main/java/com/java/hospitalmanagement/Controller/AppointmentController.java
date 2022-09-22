@@ -1,18 +1,18 @@
 package com.java.hospitalmanagement.Controller;
 
+import com.java.hospitalmanagement.Dto.AppointmentDto;
 import com.java.hospitalmanagement.Model.Appointment;
 import com.java.hospitalmanagement.Service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -34,5 +34,10 @@ public class AppointmentController {
         appointmentService.save(hospital,clinic,name,start,end,principal);
 
        return ResponseEntity.accepted().body("ss");
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<AppointmentDto>> getMemberAppointment(Principal principal){
+        return ResponseEntity.status(HttpStatus.OK).body(appointmentService.getMemberAppointment(principal));
     }
 }
