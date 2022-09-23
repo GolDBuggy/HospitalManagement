@@ -38,11 +38,11 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests().antMatchers("/save").permitAll().and().
                 authorizeRequests().
-                antMatchers("/all","/profile","/profile/**","/disease/all","/note/save","/note/my","/report/all","/appointment/**").
+                antMatchers("/all","/profile","/profile/**","/disease/all","/note/save","/note/my","/report/all","/appointment/**","/vaccine/my").
                 hasRole("MEMBER").and().
                 authorizeRequests().antMatchers("/list/analysis","/analysis/**").hasRole("LABORATORIAN").and().
                 authorizeRequests().
-                antMatchers("/barcode/**","/analysis/all","/disease/save","/note/{personalId}","/report/save").
+                antMatchers("/barcode/**","/analysis/all","/disease/save","/note/{personalId}","/report/save","/vaccine/save" ).
                 hasRole("DOCTOR").and().
                 authorizeRequests().antMatchers("/clinic/**","/doctor/**","/hospital/**").
                 hasAnyRole("ADMIN","DOCTOR").and().

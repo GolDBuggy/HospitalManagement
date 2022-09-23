@@ -53,10 +53,11 @@ public class AppointmentService {
     private void checkTime(LocalDateTime startTime,LocalDateTime endTime){
         int timeHour=endTime.getHour()-startTime.getHour();
         double totalTimeMinute=Math.abs(endTime.getMinute()-startTime.getMinute());
+        boolean currentDate=startTime.isAfter(LocalDateTime.now()) && endTime.isAfter(LocalDateTime.now());
         boolean dateControl=(startTime.getDayOfMonth()-endTime.getDayOfMonth()) ==0;
         boolean workingHour=(endTime.getHour()>=8 && endTime.getHour()<=17) && (startTime.getHour()>=8 && startTime.getHour() <=17);
         boolean appointmentTime=((timeHour==0 || timeHour==1) && totalTimeMinute<=30.0);
-        if (!(workingHour && appointmentTime && dateControl))
+        if (!(workingHour && appointmentTime && dateControl && currentDate))
             throw new TimeException("Time range must be entered correctly! ");
     }
 
