@@ -1,6 +1,7 @@
 package com.java.hospitalmanagement.Service;
 
 import com.java.hospitalmanagement.Dto.VaccineDto;
+import com.java.hospitalmanagement.Model.Member;
 import com.java.hospitalmanagement.Model.Vaccine;
 import com.java.hospitalmanagement.Repository.VaccineRepo;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class VaccineService {
 
 
     public void save(VaccineDto vaccineDto, Principal principal){
+        checkVaccine(memberService.getByPersonalId(vaccineDto.getMember().getPersonalId()),vaccineDto.getName(),vaccineDto.getDose());
         Vaccine vaccine=Vaccine.builder().member(memberService.getByPersonalId(vaccineDto.getMember().getPersonalId())).
                                 doctor(doctorService.getByPersonalId(principal.getName())).name(vaccineDto.getName()).
                 company(vaccineDto.getCompany()).date(LocalDate.now()).dose(vaccineDto.getDose()).
@@ -33,5 +35,10 @@ public class VaccineService {
 
     public List<VaccineDto> getMemberVaccine(Principal principal){
         return memberService.getByPersonalId(principal.getName()).getVaccines().stream().map(e -> modelMapper.map(e,VaccineDto.class)).collect(Collectors.toList());
+    }
+
+    private void checkVaccine(Member member,String name,int dose){
+        if(vaccineRepo.existsByMemberAndNameAndDose(member,name,dose))
+            throw new RuntimeException("Already saved!");
     }
 }

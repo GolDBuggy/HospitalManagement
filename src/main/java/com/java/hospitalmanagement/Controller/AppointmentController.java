@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,7 +31,7 @@ public class AppointmentController {
                                          Principal principal){
         appointmentService.save(hospital,clinic,name,start,end,principal);
 
-       return ResponseEntity.accepted().body("ss");
+       return ResponseEntity.accepted().body("The appointment was successfully made!");
     }
 
     @GetMapping("/my")

@@ -1,6 +1,7 @@
 package com.java.hospitalmanagement.Service;
 
 import com.java.hospitalmanagement.Dto.AppointmentDto;
+import com.java.hospitalmanagement.Exception.AppointmentException;
 import com.java.hospitalmanagement.Exception.TimeException;
 import com.java.hospitalmanagement.Model.Appointment;
 import com.java.hospitalmanagement.Model.Doctor;
@@ -41,6 +42,7 @@ public class AppointmentService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime startTime=LocalDateTime.parse(start,formatter);
         LocalDateTime endTime=LocalDateTime.parse(end,formatter);
+        checkExistAppointment(startTime,endTime);
         checkTime(startTime,endTime);
         Appointment appointment=Appointment.builder().hospital(hospitalService.getByName(hospital)).
                 member(memberService.getByPersonalId(principal.getName())).
@@ -50,10 +52,15 @@ public class AppointmentService {
         appointmentRepo.save(appointment);
     }
 
+    private void checkExistAppointment(LocalDateTime startTime,LocalDateTime endTime){
+        if(appointmentRepo.existsAppointmentByStartTimeAndEndTime(startTime,endTime))
+            throw new AppointmentException("The appointment has already been made!");
+    }
+
     private void checkTime(LocalDateTime startTime,LocalDateTime endTime){
         int timeHour=endTime.getHour()-startTime.getHour();
         double totalTimeMinute=Math.abs(endTime.getMinute()-startTime.getMinute());
-        boolean currentDate=startTime.isAfter(LocalDateTime.now()) && endTime.isAfter(LocalDateTime.now());
+        boolean currentDate=(startTime.isAfter(LocalDateTime.now()) && endTime.isAfter(LocalDateTime.now())) && startTime.isBefore(endTime);
         boolean dateControl=(startTime.getDayOfMonth()-endTime.getDayOfMonth()) ==0;
         boolean workingHour=(endTime.getHour()>=8 && endTime.getHour()<=17) && (startTime.getHour()>=8 && startTime.getHour() <=17);
         boolean appointmentTime=((timeHour==0 || timeHour==1) && totalTimeMinute<=30.0);
